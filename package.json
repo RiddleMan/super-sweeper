@@ -16,6 +16,7 @@
     "jest": "^24.8.0"
   },
   "dependencies": {
-    "debug": "^4.1.1"
+    "debug": "^4.1.1",
+    "rimraf": "^2.6.3"
   }
 }

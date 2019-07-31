@@ -1,41 +1,55 @@
-const fs = require('fs');
+const fs = require('fs').promises;
+const rimraf = require('rimraf');
 const util = require('util');
 const path = require('path');
 const debug = require('debug');
 
-const readdir = util.promisify(fs.readdir);
-const stat = util.promisify(fs.stat);
-
 const DOWNLOADS_PATH = path.resolve(process.env.HOME, 'Downloads');
 const SCREENSHOTS_PATH = '~/Desktop';
 
+const rimrafP = util.promisify(rimraf);
+
+const getStatsForPaths = async (paths) => {
+    const statsPromises = paths.map(async (file) => {
+        const fStats = await fs.stat(file);
+
+        return {
+            path: file,
+            stats: fStats
+        };
+    });
+
+    return Promise.all(statsPromises);
+};
+
 const getStatsOlderThan = async (dir, beforeTime) => {
-    const files = await readdir(dir);
+    const files = await fs.readdir(dir);
 
-    const statPromises = files
-        .map((file) => path.join(dir, file))
-        .map(async (file) => {
-            const fStats = await stat(file);
+    const filePaths = files
+        .map((file) => path.join(dir, file));
 
-            return {
-                path: file,
-                stats: fStats
-            };
-        });
+    const stats = await getStatsForPaths(filePaths);
 
-    const stats = await Promise.all(statPromises);
+
 
     return stats
         .filter(({ stats: { mtimeMs } }) => mtimeMs <= beforeTime)
-        .filter(({ stats }) => stats.isFile() || stats.isDirectory())
-        .map(({ path }) => path);
+        .filter(({ stats }) => stats.isFile() || stats.isDirectory());
 };
+
+const removeFile = ({ path, stats }) =>
+    stats.isDirectory()
+        ? rimrafP(path)
+        : fs.unlink(path);
+
+const removeFiles = (paths) =>
+    Promise.all(paths.map(removeFile));
 
 module.exports = {
     clean: async () => {
         const monthEarlierDate = new Date().getTime() - 30*24*60*60*1000;
 
         const files = (await getStatsOlderThan(DOWNLOADS_PATH, monthEarlierDate));
-        console.log(files);
+        await removeFiles(files);
     }
 };
