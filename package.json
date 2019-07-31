@@ -1,0 +1,11 @@
+{
+  "name": "super-sweeper",
+  "version": "0.0.1",
+  "description": "Helps you with everyday's mess",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Artur Ptaszek <artur.ptaszek@gmail.com>",
+  "license": "MIT"
+}
