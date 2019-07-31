@@ -5,6 +5,7 @@ const path = require('path');
 const debug = require('debug')('super-sweeper');
 
 const DOWNLOADS_PATH = path.resolve(process.env.HOME, 'Downloads');
+const SCREENSHOTS_PATH = path.resolve(process.env.HOME, 'Desktop');
 
 const BEFORE_DATE = new Date().getTime() - 30*24*60*60*1000;
 
@@ -53,11 +54,29 @@ const removeFiles = (paths) => {
     return Promise.all(paths.map(removeFile));
 };
 
+const getDownloads = () => {
+    return getStatsOlderThan(DOWNLOADS_PATH, BEFORE_DATE);
+};
+
+const getScreenshots = async () => {
+    const files = await getStatsOlderThan(SCREENSHOTS_PATH, BEFORE_DATE);
+
+    return files.filter(({ path: filePath }) => {
+        const name = path.basename(filePath);
+
+        return name.startsWith('Screenshot ')
+            || name.startsWith('Screen Recording');
+    })
+};
+
 module.exports = {
     clean: async () => {
         console.log(`Removing all files before: ${new Date(BEFORE_DATE).toGMTString()}`);
 
-        const files = (await getStatsOlderThan(DOWNLOADS_PATH, BEFORE_DATE));
+        const downloadFiles = await getDownloads();
+        const screenshotsFiles = await getScreenshots();
+
+        const files = [...downloadFiles, ...screenshotsFiles];
 
         console.log(`Found ${files.length} files.`);
         console.log('Removing...');
