@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "debug": "^4.1.1",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.6.3",
+    "yargs": "^13.3.0"
   }
 }
