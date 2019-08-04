@@ -2,6 +2,7 @@ const fs = require('fs').promises;
 const debug = require('debug')('super-sweeper');
 const path = require('path');
 const parseRetention = require('./parseRetention');
+const logger = require("./logger");
 
 const BEFORE_DATE = '30d';
 
@@ -52,7 +53,7 @@ const matchFiles = async (
 ) => {
     const beforeDate = parseRetention(new Date())(retention);
 
-    console.log(`Removing all files before: ${beforeDate}`);
+    logger.log(`Removing all files before: ${beforeDate}`);
 
     const filesOlderThan = await getStatsOlderThan(cleanPath, beforeDate);
     return filterByRegex(filesOlderThan, match);

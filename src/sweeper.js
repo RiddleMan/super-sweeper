@@ -1,10 +1,11 @@
 const matchFiles = require('./matchFiles');
 const removeFiles = require('./removeFiles');
+const logger = require("./logger");
 
 const removeFilesWithOptions = ({ dry }) => async (files) => {
     if(dry) {
-        console.log('Dry mode enabled. Showing files to remove.');
-        console.log(
+        logger.log('Dry mode enabled. Showing files to remove.');
+        logger.log(
             files.map(({ path }) => path)
                 .map((path) => `Skipping ${path}`)
                 .join('\n')
@@ -12,7 +13,7 @@ const removeFilesWithOptions = ({ dry }) => async (files) => {
         return;
     }
 
-    console.log('Removing...');
+    logger.log('Removing...');
     await removeFiles(files);
 };
 
@@ -20,15 +21,15 @@ const cleanPath = (options) => async ([
     cleanPath,
     predicate
 ]) => {
-    console.log(`Sweeping ${cleanPath}`);
+    logger.log(`Sweeping ${cleanPath}`);
 
     const files = await matchFiles(cleanPath, predicate);
 
-    console.log(`Found ${files.length} files.`);
+    logger.log(`Found ${files.length} files.`);
 
     await removeFilesWithOptions(options)(files);
 
-    console.log(`Successfully removed ${files.length} files.`);
+    logger.log(`Successfully removed ${files.length} files.`);
 };
 
 const runSeries = (promiseGenerators) =>

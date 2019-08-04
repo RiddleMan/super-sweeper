@@ -1,4 +1,5 @@
 const yargs = require('yargs');
+const logger = require('./src/logger');
 
 const argv = yargs
     .scriptName('super-sweeper')
@@ -7,11 +8,6 @@ const argv = yargs
         alias: 'verbose',
         boolean: true,
         desc: 'Gimme moar output'
-    })
-    .option('q', {
-        alias: 'quiet',
-        boolean: true,
-        desc: 'No input baby'
     })
     .option('r', {
         alias: 'retention',
@@ -35,6 +31,8 @@ const argv = yargs
     .help('h')
     .alias('h', 'help')
     .argv;
+
+logger.setVerbosity(argv.v ? 1 : 0);
 
 require('./src/sweeper').clean({
     options: {
