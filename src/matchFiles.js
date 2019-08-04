@@ -31,8 +31,12 @@ const getStatsOlderThan = async (dir, beforeTime) => {
     const stats = await getStatsForPaths(filePaths);
 
     return stats
-        .filter(({ stats: { mtimeMs } }) => mtimeMs <= beforeTime)
-        .filter(({ stats }) => stats.isFile() || stats.isDirectory());
+        .filter(({ stats: { mtimeMs } }) =>
+            mtimeMs <= beforeTime.getTime()
+        )
+        .filter(({ stats }) =>
+            stats.isFile() || stats.isDirectory()
+        );
 };
 
 const filterByRegex = (paths, match) =>
@@ -50,7 +54,7 @@ const matchFiles = async (
 
     console.log(`Removing all files before: ${beforeDate}`);
 
-    const filesOlderThan = await getStatsOlderThan(cleanPath, retention);
+    const filesOlderThan = await getStatsOlderThan(cleanPath, beforeDate);
     return filterByRegex(filesOlderThan, match);
 };
 
