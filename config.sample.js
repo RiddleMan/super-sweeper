@@ -1,8 +1,9 @@
+const path = require('path');
 module.exports = {
-    '~/Downloads': {
+    [path.resolve(process.env.HOME, 'Downloads')]: {
         retention: '30d'
     },
-    '~/Desktop': {
+    [path.resolve(process.env.HOME, 'Desktop')]: {
         retention: '30d',
         match: /^(Screenshot | Screen Recording )/
     }

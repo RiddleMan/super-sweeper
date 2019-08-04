@@ -1,15 +1,11 @@
 const fs = require('fs').promises;
-const rimraf = require('rimraf');
 const util = require('util');
+const rimrafP = util.promisify(require('rimraf'));
 const path = require('path');
 const debug = require('debug')('super-sweeper');
+const parseRetention = require('./parseRetention');
 
-const DOWNLOADS_PATH = path.resolve(process.env.HOME, 'Downloads');
-const SCREENSHOTS_PATH = path.resolve(process.env.HOME, 'Desktop');
-
-const BEFORE_DATE = new Date().getTime() - 30*24*60*60*1000;
-
-const rimrafP = util.promisify(rimraf);
+const BEFORE_DATE = '30d';
 
 const getStatsForPaths = async (paths) => {
     const statsPromises = paths.map(async (file) => {
@@ -54,35 +50,47 @@ const removeFiles = (paths) => {
     return Promise.all(paths.map(removeFile));
 };
 
-const getDownloads = () => {
-    return getStatsOlderThan(DOWNLOADS_PATH, BEFORE_DATE);
+const filterByRegex = (paths, match) =>
+    paths
+        .filter(({ path }) => match.test(path));
+
+const matchFiles = async (
+    cleanPath,
+    {
+        match = /./,
+        retention = BEFORE_DATE
+    }) => {
+    const beforeDate = parseRetention(new Date())(retention);
+
+    console.log(`Removing all files before: ${beforeDate}`);
+
+    const filesOlderThan = await getStatsOlderThan(cleanPath, retention);
+    return filterByRegex(filesOlderThan, match);
 };
 
-const getScreenshots = async () => {
-    const files = await getStatsOlderThan(SCREENSHOTS_PATH, BEFORE_DATE);
+const cleanPath = async ([
+    cleanPath,
+    predicate
+]) => {
+    console.log(`Sweeping ${cleanPath}`);
 
-    return files.filter(({ path: filePath }) => {
-        const name = path.basename(filePath);
+    const files = await matchFiles(cleanPath, predicate);
 
-        return name.startsWith('Screenshot ')
-            || name.startsWith('Screen Recording');
-    })
+    console.log(`Found ${files.length} files.`);
+    console.log('Removing...');
+
+    await removeFiles(files);
+
+    console.log(`Successfully removed ${files.length} files.`);
 };
 
 module.exports = {
-    clean: async () => {
-        console.log(`Removing all files before: ${new Date(BEFORE_DATE).toGMTString()}`);
+    clean: async ({
+        paths
+    }) => {
+        const removalPromises = Object.entries(paths)
+            .map(cleanPath);
 
-        const downloadFiles = await getDownloads();
-        const screenshotsFiles = await getScreenshots();
-
-        const files = [...downloadFiles, ...screenshotsFiles];
-
-        console.log(`Found ${files.length} files.`);
-        console.log('Removing...');
-
-        await removeFiles(files);
-
-        console.log(`Successfully removed ${files.length} files.`);
+        return Promise.all(removalPromises);
     }
 };

@@ -1,6 +1,6 @@
 const yargs = require('yargs');
 
-yargs
+const argv = yargs
     .scriptName('super-sweeper')
     .usage('Usage: $0 <command> [options]')
     .option('v', {
@@ -31,3 +31,6 @@ yargs
     .alias('h', 'help')
     .argv;
 
+require('./src/sweeper').clean({
+    paths: require('./config.sample')
+});
