@@ -27,10 +27,18 @@ const argv = yargs
         string: true,
         desc: 'Path to config file with paths to cleanup'
     })
+    .option('dry', {
+        boolean: true,
+        desc: 'Simulates a cleanup',
+        default: false
+    })
     .help('h')
     .alias('h', 'help')
     .argv;
 
 require('./src/sweeper').clean({
+    options: {
+        dry: argv.dry
+    },
     paths: require('./config.sample')
 });
