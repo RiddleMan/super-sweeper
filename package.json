@@ -1,6 +1,6 @@
 {
   "name": "super-sweeper",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Helps you with everyday's mess",
   "main": "index.js",
   "bin": {
