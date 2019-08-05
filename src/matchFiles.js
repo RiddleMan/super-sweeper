@@ -42,15 +42,15 @@ const getStatsOlderThan = async (dir, beforeTime) => {
 
 const filterByRegex = (paths, match) =>
     paths
-        .filter(({ path }) => match.test(path));
+        .filter(({ path: cleanPath }) =>
+            match.test(path.basename(cleanPath))
+        );
 
-const matchFiles = async (
-    cleanPath,
-    {
-        match = /./,
-        retention = BEFORE_DATE
-    }
-) => {
+const matchFiles = async ({
+    path: cleanPath,
+    match = /./,
+    retention = BEFORE_DATE
+}) => {
     const beforeDate = parseRetention(new Date())(retention);
 
     logger.log(`Removing all files before: ${beforeDate}`);

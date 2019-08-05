@@ -27,10 +27,11 @@ const cleanPath = (options) => async ({
     logger.log(`Sweeping ${cleanPath}`);
     const cleanPathResolved = expandHome(cleanPath);
 
-    const files = await matchFiles(
-        cleanPathResolved,
-        { match, retention }
-    );
+    const files = await matchFiles({
+        path: cleanPathResolved,
+        match,
+        retention
+    });
 
     logger.log(`Found ${files.length} files.`);
 
