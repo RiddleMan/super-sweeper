@@ -66,9 +66,12 @@ Firstly, add following file to the LaunchAgents folder `~/Library/LaunchAgents/l
     <dict>
         <key>Label</key>
         <string>local.super-sweeper</string>
-        <key>Program</key>
-        <string>/usr/local/bin/super-sweeper</string> <!-- location of the tool. You can get this by calling `which super-sweeper` -->
-        <key>StartInverval</key>
+        <key>ProgramArguments</key>
+		<array>
+			<string>/usr/local/bin/node</string> <!-- node path `which node` -->
+            <string>/usr/local/bin/super-sweeper</string> <!-- location of the tool. You can get this by calling `which super-sweeper` -->
+		</array>
+        <key>StartInterval</key>
         <integer>3600</integer> <!-- interval in seconds. 3600s = 1h -->
     </dict>
 </plist>
