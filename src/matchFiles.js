@@ -1,4 +1,5 @@
-const fs = require('fs').promises;
+const fs = require('fs');
+const util = require('util');
 const debug = require('debug')('super-sweeper');
 const path = require('path');
 const parseRetention = require('./parseRetention');
@@ -6,9 +7,12 @@ const logger = require("./logger");
 
 const BEFORE_DATE = '30d';
 
+const readdir = util.promisify(fs.readdir);
+const stat = util.promisify(fs.stat);
+
 const getStatsForPaths = async (paths) => {
     const statsPromises = paths.map(async (file) => {
-        const fStats = await fs.stat(file);
+        const fStats = await stat(file);
 
         return {
             path: file,
@@ -22,7 +26,7 @@ const getStatsForPaths = async (paths) => {
 const getStatsOlderThan = async (dir, beforeTime) => {
     debug('Removing files in directory %s', dir);
 
-    const files = await fs.readdir(dir);
+    const files = await readdir(dir);
 
     debug('Reading stats for %O', files);
 
@@ -49,9 +53,10 @@ const filterByRegex = (paths, match) =>
 const matchFiles = async ({
     path: cleanPath,
     match = /./,
-    retention = BEFORE_DATE
+    retention = BEFORE_DATE,
+    _referenceDate = new Date()
 }) => {
-    const beforeDate = parseRetention(new Date())(retention);
+    const beforeDate = parseRetention(_referenceDate)(retention);
 
     logger.log(`Removing all files before: ${beforeDate}`);
 
