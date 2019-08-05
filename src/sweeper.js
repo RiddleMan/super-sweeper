@@ -1,6 +1,8 @@
+const path = require('path');
 const matchFiles = require('./matchFiles');
 const removeFiles = require('./removeFiles');
 const logger = require("./logger");
+const { expandHome, runSeries } = require("./utils");
 
 const removeFilesWithOptions = ({ dry }) => async (files) => {
     if(dry) {
@@ -22,8 +24,9 @@ const cleanPath = (options) => async ([
     predicate
 ]) => {
     logger.log(`Sweeping ${cleanPath}`);
+    const cleanPathResolved = expandHome(cleanPath);
 
-    const files = await matchFiles(cleanPath, predicate);
+    const files = await matchFiles(cleanPathResolved, predicate);
 
     logger.log(`Found ${files.length} files.`);
 
@@ -31,13 +34,6 @@ const cleanPath = (options) => async ([
 
     logger.log(`Successfully removed ${files.length} files.`);
 };
-
-const runSeries = (promiseGenerators) =>
-    promiseGenerators.reduce(
-        (res, curr) =>
-            res.then(() => curr()),
-        Promise.resolve()
-    );
 
 module.exports = {
     clean: async ({
