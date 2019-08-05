@@ -1,9 +1,11 @@
-module.exports = {
-    '~/Downloads': {
+module.exports = [
+    {
+        path: '~/Downloads',
         retention: '30d'
     },
-    '~/Desktop': {
+    {
+        path: '~/Desktop',
         retention: '30d',
-        match: /^(Screenshot | Screen Recording )/
+        match: /^(Screenshot |Screen Recording )/
     }
-};
+];

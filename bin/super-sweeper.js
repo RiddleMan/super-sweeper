@@ -13,12 +13,13 @@ const helpText = `Examples:
 
   Run for custom config
     # config.js
-    module.exports = {
-      'your/path/here': {
+    module.exports = [
+      {
+        path: 'your/path/here',
         retention: '1h',
         match: /^DCIM/
       }
-    }
+    ];
 
     $ super-sweeper --config ./config.js
 `;
@@ -65,14 +66,15 @@ const getPaths = () => {
     if (argv.config) {
         return require(path.resolve(process.cwd(), argv.config));
     } else if (argv.path) {
-        return {
-            [argv.path]: {
+        return [
+            {
+                path: argv.path,
                 ...(argv.retention
                         ? { retention: argv.retention }
                         : {}
                 )
             }
-        };
+        ];
     } else {
         return require('../config.sample');
     }

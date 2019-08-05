@@ -19,14 +19,18 @@ const removeFilesWithOptions = ({ dry }) => async (files) => {
     await removeFiles(files);
 };
 
-const cleanPath = (options) => async ([
-    cleanPath,
-    predicate
-]) => {
+const cleanPath = (options) => async ({
+    path: cleanPath,
+    match,
+    retention
+}) => {
     logger.log(`Sweeping ${cleanPath}`);
     const cleanPathResolved = expandHome(cleanPath);
 
-    const files = await matchFiles(cleanPathResolved, predicate);
+    const files = await matchFiles(
+        cleanPathResolved,
+        { match, retention }
+    );
 
     logger.log(`Found ${files.length} files.`);
 
@@ -42,7 +46,7 @@ module.exports = {
     }) => {
         const cleanPathSingle = cleanPath(options);
 
-        const removalPromises = Object.entries(paths)
+        const removalPromises = paths
             .map((path) => () => cleanPathSingle(path));
 
         return runSeries(removalPromises);

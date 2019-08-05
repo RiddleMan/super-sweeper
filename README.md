@@ -32,8 +32,9 @@ Examples:
 
   Run for custom config
     # config.js
-    module.exports = {
-      'your/path/here': {
+    module.exports = [
+      {
+        path: 'your/path/here',
         retention: '1h',
         match: /^DCIM/
       }
@@ -47,13 +48,14 @@ Examples:
 The tool accepts configs in following format:
 
 ```js
-module.exports = {
-    '/path/to/a/folder/': {
+module.exports = [
+    {
+        path: '/path/to/a/folder/',
         retention: '30d', // Ex. 1Y, 1M, 10d, 20h, 60m, 30s
         match: /^DCIM/ // JS RegExp matching files to remove
     }, 
-    '/another/path': {} // Take all defaults. Retention 30d, match all
-}
+    { path: '/another/path' } // Take all defaults. Retention 30d, match all
+];
 ```
 
 ### Add program to launchd
