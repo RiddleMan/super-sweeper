@@ -35,13 +35,31 @@ const argv = yargs
 
 logger.setVerbosity(argv.v ? 1 : 0);
 
-const configPath = argv.config
-    ? path.resolve(process.cwd(), argv.config)
-    : './config.sample.js';
+if (argv.path && argv.config) {
+    console.log('Decide whether you want use a config or a path.');
+    process.exit(1);
+}
+
+const getPaths = () => {
+    if (argv.config) {
+        return require(path.resolve(process.cwd(), argv.config));
+    } else if (argv.path) {
+        return {
+            [argv.path]: {
+                ...(argv.retention
+                        ? { retention: argv.retention }
+                        : {}
+                )
+            }
+        };
+    } else {
+        return require('./config.sample');
+    }
+};
 
 require('./src/sweeper').clean({
     options: {
         dry: argv.dry
     },
-    paths: require(configPath)
+    paths: getPaths()
 });
