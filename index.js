@@ -1,5 +1,6 @@
 const yargs = require('yargs');
 const logger = require('./src/logger');
+const path = require('path');
 
 const argv = yargs
     .scriptName('super-sweeper')
@@ -34,9 +35,13 @@ const argv = yargs
 
 logger.setVerbosity(argv.v ? 1 : 0);
 
+const configPath = argv.config
+    ? path.resolve(process.cwd(), argv.config)
+    : './config.sample.js';
+
 require('./src/sweeper').clean({
     options: {
         dry: argv.dry
     },
-    paths: require('./config.sample')
+    paths: require(configPath)
 });
