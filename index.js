@@ -2,13 +2,31 @@ const yargs = require('yargs');
 const logger = require('./src/logger');
 const path = require('path');
 
+const helpText = `Examples:
+  Run with default config for ~/Downloads and ~/Desktop (screenshots only). 30 days retention.
+    $ super-sweeper
+
+  Run for custom path with user-defined retention.
+    $ super-sweeper --path your/path/here/ --retention 1h
+
+  Run for custom config
+    # config.js
+    module.exports = {
+      'your/path/here': {
+        retention: '1h',
+        match: /^DCIM/
+      }
+    }
+
+    $ super-sweeper --config ./config.js
+`;
+
 const argv = yargs
     .scriptName('super-sweeper')
     .usage('Usage: $0 <command> [options]')
     .option('v', {
         alias: 'verbose',
-        boolean: true,
-        desc: 'Gimme moar output'
+        boolean: true
     })
     .option('r', {
         alias: 'retention',
@@ -30,6 +48,7 @@ const argv = yargs
         default: false
     })
     .help('h')
+    .epilog(helpText)
     .alias('h', 'help')
     .argv;
 
