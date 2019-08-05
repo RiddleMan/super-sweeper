@@ -1,6 +1,6 @@
 # Super sweeper
 
-Super sweeper is a cleanup tool helping you keep mess folders tidy.
+Super sweeper is a cleanup tool helping you regain control over messy folders.
 
 ## Installation
 ```
