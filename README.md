@@ -55,3 +55,29 @@ module.exports = {
     '/another/path': {} // Take all defaults. Retention 30d, match all
 }
 ```
+
+### Add program to launchd
+
+Firstly, add following file to the LaunchAgents folder `~/Library/LaunchAgents/local.super-sweeper.plist`. Please fill out program path and interval.
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>Label</key>
+        <string>local.super-sweeper</string>
+        <key>Program</key>
+        <string>/usr/local/bin/super-sweeper</string> <!-- location of the tool. You can get this by calling `which super-sweeper` -->
+        <key>StartInverval</key>
+        <integer>3600</integer> <!-- interval in seconds. 3600s = 1h -->
+    </dict>
+</plist>
+
+```
+
+Run below commands to register _launchd_ agent.
+
+```
+$ launchctl load ~/Library/LaunchAgents/local.super-sweeper.plist
+$ launchctl start local.super-sweeper
+```
