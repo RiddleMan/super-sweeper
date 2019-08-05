@@ -54,7 +54,7 @@ test('should return a date 3 months back', () => {
         .toBe(new Date(2019,5, 3).getTime());
 });
 
-test('should return a date 3 months back', () => {
+test('should return a date 600s back', () => {
     const startDate = new Date(2019, 8, 1, 1);
 
     const actual = parseRetention(startDate)('600s');
