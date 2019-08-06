@@ -1,4 +1,3 @@
-const path = require('path');
 const matchFiles = require('./matchFiles');
 const removeFiles = require('./removeFiles');
 const logger = require("./logger");
