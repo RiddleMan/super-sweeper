@@ -1,3 +1,3 @@
-const rimraf = jest.fn();
+import { vi } from 'vitest';
 
-module.exports = rimraf;
+export default vi.fn();

@@ -1,12 +1,13 @@
-jest.mock('fs/promises');
-jest.mock('rimraf');
+import { vi, test, beforeEach, expect } from 'vitest';
+import { removeFiles } from './removeFiles.js';
+import * as fs from 'node:fs/promises';
+import rimraf from 'rimraf';
 
-const removeFiles = require('./removeFiles');
-const fs = require('fs/promises');
-const rimraf = require('rimraf');
+vi.mock('node:fs/promises');
+vi.mock('rimraf');
 
 beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 });
 
 test('should remove file using unlink', async () => {

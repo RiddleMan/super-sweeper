@@ -1,8 +1,8 @@
-jest.mock('fs/promises');
+import { test, expect, vi } from 'vitest';
+import * as fs from 'node:fs/promises';
+import { matchFiles } from './matchFiles.js';
 
-const fs = require('fs/promises');
-
-const matchFiles = require('./matchFiles');
+vi.mock('node:fs/promises');
 
 const REFERENCE_DATE = new Date(2019, 8, 1, 12, 30, 20);
 

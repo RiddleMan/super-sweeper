@@ -1,14 +1,11 @@
-jest.mock('os');
+import { vi, beforeEach, describe, expect, test } from 'vitest';
+import * as os from 'node:os';
+import { expandHome, runSeries } from './utils.js';
 
-const os = require('os');
-
-const {
-    expandHome,
-    runSeries
-} = require('./utils');
+vi.mock('node:os');
 
 beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 });
 
 describe('expandHome()', () => {
@@ -43,9 +40,9 @@ describe('expandHome()', () => {
 describe('runSeries()', () => {
     test('should run all promises provided to the function', async () => {
         let res = '';
-        const a = jest.fn(() => res += 'a');
-        const b = jest.fn(() => res += 'b');
-        const c = jest.fn(() => res += 'c');
+        const a = vi.fn(() => res += 'a');
+        const b = vi.fn(() => res += 'b');
+        const c = vi.fn(() => res += 'c');
 
         await runSeries([
             a, b, c
@@ -57,19 +54,19 @@ describe('runSeries()', () => {
 
     test('should run in a correct order', async () => {
         let res = '';
-        const a = jest.fn(() =>
+        const a = vi.fn(() =>
             new Promise((resolve) => {
                 res += 'a';
                 setTimeout(resolve, 1000);
             })
         );
-        const b = jest.fn(() =>
+        const b = vi.fn(() =>
             new Promise((resolve) => {
                 res += 'b';
                 setTimeout(resolve, 100);
             })
         );
-        const c = jest.fn(() =>
+        const c = vi.fn(() =>
             new Promise((resolve) => {
                 res += 'c';
                 setTimeout(resolve, 10);
@@ -86,19 +83,19 @@ describe('runSeries()', () => {
 
     test('should not continue chain on rejection', async () => {
         let res = '';
-        const a = jest.fn(() =>
+        const a = vi.fn(() =>
             new Promise((resolve) => {
                 res += 'a';
                 setTimeout(resolve, 1000);
             })
         );
-        const b = jest.fn(() =>
+        const b = vi.fn(() =>
             new Promise((_, reject) => {
                 res += 'b';
                 reject();
             })
         );
-        const c = jest.fn(() =>
+        const c = vi.fn(() =>
             new Promise((resolve) => {
                 res += 'c';
                 resolve();

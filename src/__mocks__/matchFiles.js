@@ -1,1 +1,3 @@
-module.exports = jest.fn();
+import { vi } from 'vitest';
+
+export const matchFiles = vi.fn();

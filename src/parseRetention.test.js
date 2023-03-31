@@ -1,4 +1,5 @@
-const parseRetention = require('./parseRetention');
+import { expect, test } from 'vitest';
+import { parseRetention } from './parseRetention.js';
 
 test('should return a date 1 day back', () => {
     const startDate = new Date(2019, 8, 1);

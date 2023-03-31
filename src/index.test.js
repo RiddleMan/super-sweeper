@@ -1,17 +1,16 @@
-jest.mock('./matchFiles.js');
-jest.mock('./removeFiles.js');
-jest.mock('os');
+import { describe, test, beforeEach, vi, expect } from 'vitest';
+import { matchFiles } from './matchFiles';
+import { removeFiles } from './removeFiles';
+import * as os from 'node:os';
+import { clean } from './index';
 
-const matchFiles = require('./matchFiles');
-const removeFiles = require('./removeFiles');
-const os = require('os');
+vi.mock('./matchFiles.js');
+vi.mock('./removeFiles.js');
+vi.mock('node:os');
 
-const {
-    clean
-} = require('./index');
 
 beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 });
 
 describe('clean()', () => {
