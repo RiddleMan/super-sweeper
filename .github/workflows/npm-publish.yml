@@ -78,8 +78,6 @@ jobs:
             - name: Install dependencies
               run: pnpm install
 
-            - run: pnpm ci
-
             - run: pnpm publish
               env:
                   NODE_AUTH_TOKEN: ${{secrets.npm_token}}
