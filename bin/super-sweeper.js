@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers'
-import * as logger from '../src/logger.js';
-import path from 'path';
-import { clean } from '../src/index.js';
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
+import * as logger from "../src/logger.js";
+import path from "path";
+import { clean } from "../src/index.js";
 
 const helpText = `Examples:
   Run with default config for ~/Downloads and ~/Desktop (screenshots only). 30 days retention.
@@ -27,40 +27,39 @@ const helpText = `Examples:
 `;
 
 const argv = yargs(hideBin(process.argv))
-    .scriptName('super-sweeper')
-    .usage('Usage: $0 <command> [options]')
-    .option('v', {
-        alias: 'verbose',
-        boolean: true
-    })
-    .option('r', {
-        alias: 'retention',
-        desc: 'Retention expressed in format: 30d, 4h, 10m',
-        default: '30d'
-    })
-    .option('p', {
-        alias: 'path',
-        desc: 'Path to cleanup'
-    })
-    .option('c', {
-        alias: 'config',
-        string: true,
-        desc: 'Path to config file with paths to cleanup'
-    })
-    .option('dry', {
+    .scriptName("super-sweeper")
+    .usage("Usage: $0 <command> [options]")
+    .option("v", {
+        alias: "verbose",
         boolean: true,
-        desc: 'Simulates a cleanup',
-        default: false
     })
-    .help('h')
+    .option("r", {
+        alias: "retention",
+        desc: "Retention expressed in format: 30d, 4h, 10m",
+        default: "30d",
+    })
+    .option("p", {
+        alias: "path",
+        desc: "Path to cleanup",
+    })
+    .option("c", {
+        alias: "config",
+        string: true,
+        desc: "Path to config file with paths to cleanup",
+    })
+    .option("dry", {
+        boolean: true,
+        desc: "Simulates a cleanup",
+        default: false,
+    })
+    .help("h")
     .epilog(helpText)
-    .alias('h', 'help')
-    .argv;
+    .alias("h", "help").argv;
 
 logger.setVerbosity(argv.v ? 1 : 0);
 
 if (argv.path && argv.config) {
-    console.log('Decide whether you want use a config or a path.');
+    console.log("Decide whether you want use a config or a path.");
     process.exit(1);
 }
 
@@ -71,21 +70,17 @@ const getPaths = async () => {
         return [
             {
                 path: argv.path,
-                ...(argv.retention
-                        ? { retention: argv.retention }
-                        : {}
-                )
-            }
+                ...(argv.retention ? { retention: argv.retention } : {}),
+            },
         ];
     } else {
-        return import('../config.sample.js');
+        return import("../config.sample.js");
     }
 };
 
 clean({
     options: {
-        dry: argv.dry
+        dry: argv.dry,
     },
-    paths: (await getPaths()).default
+    paths: (await getPaths()).default,
 });
-

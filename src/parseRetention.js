@@ -5,7 +5,7 @@ const getDateRangeValue = (dateRangeStr) => {
         d: 24 * 60 * 60 * 1000,
         h: 60 * 60 * 1000,
         m: 60 * 1000,
-        s: 1000
+        s: 1000,
     };
 
     return VALUES[dateRangeStr];

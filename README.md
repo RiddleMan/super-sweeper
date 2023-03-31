@@ -3,6 +3,7 @@
 Super sweeper is a cleanup tool helping you regain control over messy folders.
 
 ## Installation
+
 ```
 npm i -g super-sweeper
 ```
@@ -50,17 +51,18 @@ The tool accepts configs in following format:
 ```js
 module.exports = [
     {
-        path: '/path/to/a/folder/',
-        retention: '30d', // Ex. 1Y, 1M, 10d, 20h, 60m, 30s
-        match: /^DCIM/ // JS RegExp matching files to remove
-    }, 
-    { path: '/another/path' } // Take all defaults. Retention 30d, match all
+        path: "/path/to/a/folder/",
+        retention: "30d", // Ex. 1Y, 1M, 10d, 20h, 60m, 30s
+        match: /^DCIM/, // JS RegExp matching files to remove
+    },
+    { path: "/another/path" }, // Take all defaults. Retention 30d, match all
 ];
 ```
 
 ### Add program to launchd
 
 Firstly, add following file to the LaunchAgents folder `~/Library/LaunchAgents/local.super-sweeper.plist`. Please fill out program path and interval.
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">

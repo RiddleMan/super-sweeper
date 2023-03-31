@@ -1,26 +1,27 @@
 {
-  "name": "super-sweeper",
-  "version": "0.2.0",
-  "description": "Super sweeper is a cleanup tool helping you regain control over messy folders.",
-  "repository": "RiddleMan/super-sweeper",
-  "main": "src/index.js",
-  "type": "module",
-  "bin": {
-    "super-sweeper": "./bin/super-sweeper.js"
-  },
-  "scripts": {
-    "start": "node ./bin/super-sweeper.js",
-    "test": "vitest run",
-    "test:watch": "vitest"
-  },
-  "author": "Artur Ptaszek <artur.ptaszek@gmail.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "vitest": "^0.29.8"
-  },
-  "dependencies": {
-    "debug": "^4.3.4",
-    "rimraf": "^4.4.1",
-    "yargs": "^17.7.1"
-  }
+    "name": "super-sweeper",
+    "version": "0.2.0",
+    "description": "Super sweeper is a cleanup tool helping you regain control over messy folders.",
+    "repository": "RiddleMan/super-sweeper",
+    "main": "src/index.js",
+    "type": "module",
+    "bin": {
+        "super-sweeper": "./bin/super-sweeper.js"
+    },
+    "scripts": {
+        "start": "node ./bin/super-sweeper.js",
+        "test": "vitest run",
+        "test:watch": "vitest"
+    },
+    "author": "Artur Ptaszek <artur.ptaszek@gmail.com>",
+    "license": "MIT",
+    "devDependencies": {
+        "prettier": "^2.8.7",
+        "vitest": "^0.29.8"
+    },
+    "dependencies": {
+        "debug": "^4.3.4",
+        "rimraf": "^4.4.1",
+        "yargs": "^17.7.1"
+    }
 }

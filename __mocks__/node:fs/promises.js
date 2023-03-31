@@ -1,5 +1,5 @@
-import * as path from 'node:path';
-import { vi } from 'vitest';
+import * as path from "node:path";
+import { vi } from "vitest";
 
 let mockFiles = {};
 
@@ -13,7 +13,6 @@ export const stat = vi.fn(async (cleanPath) => {
     return mockFiles[name];
 });
 
-export const readdir = vi.fn(async () => 
-  Object.keys(mockFiles) ?? []);
+export const readdir = vi.fn(async () => Object.keys(mockFiles) ?? []);
 
 export const unlink = vi.fn();
