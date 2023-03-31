@@ -10,7 +10,7 @@
     },
     "scripts": {
         "start": "node ./bin/super-sweeper.js",
-        "test": "vitest run",
+        "test": "prettier --check . && vitest run",
         "test:watch": "vitest"
     },
     "author": "Artur Ptaszek <artur.ptaszek@gmail.com>",
