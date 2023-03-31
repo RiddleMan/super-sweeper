@@ -1,14 +1,10 @@
-const fs = require('fs');
-const util = require('util');
+const { readdir, stat } = require('fs/promises');
 const debug = require('debug')('super-sweeper');
 const path = require('path');
 const parseRetention = require('./parseRetention');
 const logger = require("./logger");
 
 const BEFORE_DATE = '30d';
-
-const readdir = util.promisify(fs.readdir);
-const stat = util.promisify(fs.stat);
 
 const getStatsForPaths = async (paths) => {
     const statsPromises = paths.map(async (file) => {

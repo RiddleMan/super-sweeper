@@ -1,13 +1,10 @@
-const fs = require('fs');
-const util = require('util');
-const rimrafP = util.promisify(require('rimraf'));
+const { unlink } = require('fs/promises');
+const rimraf = require('rimraf');
 const debug = require('debug')('super-sweeper');
-
-const unlink = util.promisify(fs.unlink);
 
 const removeFile = ({ path, stats }) =>
     stats.isDirectory()
-        ? rimrafP(path)
+        ? rimraf(path)
         : unlink(path);
 
 const removeFiles = (paths) => {

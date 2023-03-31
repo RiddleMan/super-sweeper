@@ -1,8 +1,8 @@
-jest.mock('fs');
+jest.mock('fs/promises');
 jest.mock('rimraf');
 
 const removeFiles = require('./removeFiles');
-const fs = require('fs');
+const fs = require('fs/promises');
 const rimraf = require('rimraf');
 
 beforeEach(() => {

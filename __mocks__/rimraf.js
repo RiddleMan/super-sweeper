@@ -1,3 +1,3 @@
-const rimraf = jest.fn((path, cb) => cb());
+const rimraf = jest.fn();
 
 module.exports = rimraf;

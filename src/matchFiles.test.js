@@ -1,6 +1,6 @@
-jest.mock('fs');
+jest.mock('fs/promises');
 
-const fs = require('fs');
+const fs = require('fs/promises');
 
 const matchFiles = require('./matchFiles');
 
