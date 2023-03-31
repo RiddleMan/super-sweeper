@@ -1,7 +1,7 @@
-const matchFiles = require('./matchFiles');
-const removeFiles = require('./removeFiles');
-const logger = require("./logger");
-const { expandHome, runSeries } = require("./utils");
+import { matchFiles } from './matchFiles.js';
+import { removeFiles } from './removeFiles.js';
+import * as logger from "./logger.js";
+import { expandHome, runSeries } from "./utils.js";
 
 const removeFilesWithOptions = ({ dry }) => async (files) => {
     if(dry) {
@@ -39,8 +39,7 @@ const cleanPath = (options) => async ({
     logger.log(`Successfully removed ${files.length} files.`);
 };
 
-module.exports = {
-    clean: async ({
+export const clean = async ({
         options,
         paths
     }) => {
@@ -50,5 +49,4 @@ module.exports = {
             .map((path) => () => cleanPathSingle(path));
 
         return runSeries(removalPromises);
-    }
-};
+    };

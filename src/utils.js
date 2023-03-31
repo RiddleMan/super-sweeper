@@ -1,16 +1,11 @@
-const os = require('os');
+import * as os from 'node:os';
 
-const expandHome = (dir) =>
+export const expandHome = (dir) =>
     dir.replace(/^~/, os.homedir());
 
-const runSeries = (promiseGenerators) =>
+export const runSeries = (promiseGenerators) =>
     promiseGenerators.reduce(
         (res, curr) =>
             res.then(() => curr()),
         Promise.resolve()
     );
-
-module.exports = {
-    expandHome,
-    runSeries
-};

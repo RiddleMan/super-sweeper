@@ -1,4 +1,4 @@
-module.exports = [
+export default [
     {
         path: '~/Downloads',
         retention: '30d'

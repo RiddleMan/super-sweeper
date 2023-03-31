@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
-const yargs = require('yargs');
-const logger = require('../src/logger');
-const path = require('path');
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers'
+import * as logger from '../src/logger.js';
+import path from 'path';
+import { clean } from '../src/index.js';
 
 const helpText = `Examples:
   Run with default config for ~/Downloads and ~/Desktop (screenshots only). 30 days retention.
@@ -24,7 +26,7 @@ const helpText = `Examples:
     $ super-sweeper --config ./config.js
 `;
 
-const argv = yargs
+const argv = yargs(hideBin(process.argv))
     .scriptName('super-sweeper')
     .usage('Usage: $0 <command> [options]')
     .option('v', {
@@ -62,9 +64,9 @@ if (argv.path && argv.config) {
     process.exit(1);
 }
 
-const getPaths = () => {
+const getPaths = async () => {
     if (argv.config) {
-        return require(path.resolve(process.cwd(), argv.config));
+        return import(path.resolve(process.cwd(), argv.config));
     } else if (argv.path) {
         return [
             {
@@ -76,14 +78,14 @@ const getPaths = () => {
             }
         ];
     } else {
-        return require('../config.sample');
+        return import('../config.sample.js');
     }
 };
 
-require('../src').clean({
+clean({
     options: {
         dry: argv.dry
     },
-    paths: getPaths()
+    paths: (await getPaths()).default
 });
 

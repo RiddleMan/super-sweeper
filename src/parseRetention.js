@@ -18,7 +18,7 @@ const parseStr = (retentionStr) => {
     return value * dateRange;
 };
 
-module.exports = (referenceDate) => (retentionStr) => {
+export const parseRetention = (referenceDate) => (retentionStr) => {
     const unixTime = referenceDate.getTime() - parseStr(retentionStr);
 
     return new Date(unixTime);

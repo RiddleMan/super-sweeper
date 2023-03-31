@@ -1,8 +1,10 @@
-const { readdir, stat } = require('fs/promises');
-const debug = require('debug')('super-sweeper');
-const path = require('path');
-const parseRetention = require('./parseRetention');
-const logger = require("./logger");
+import { readdir, stat } from 'node:fs/promises';
+import debugFactory from 'debug'
+import path from 'node:path';
+import { parseRetention } from './parseRetention.js';
+import * as logger from './logger.js';
+
+const debug = debugFactory('super-sweeper');
 
 const BEFORE_DATE = '30d';
 
@@ -46,7 +48,7 @@ const filterByRegex = (paths, match) =>
             match.test(path.basename(cleanPath))
         );
 
-const matchFiles = async ({
+export const matchFiles = async ({
     path: cleanPath,
     match = /./,
     retention = BEFORE_DATE,
@@ -59,5 +61,3 @@ const matchFiles = async ({
     const filesOlderThan = await getStatsOlderThan(cleanPath, beforeDate);
     return filterByRegex(filesOlderThan, match);
 };
-
-module.exports = matchFiles;
