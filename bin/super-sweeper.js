@@ -15,7 +15,7 @@ const helpText = `Examples:
 
   Run for custom config
     # config.js
-    module.exports = [
+    export default [
       {
         path: 'your/path/here',
         retention: '1h',

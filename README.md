@@ -33,7 +33,7 @@ Examples:
 
   Run for custom config
     # config.js
-    module.exports = [
+    export default [
       {
         path: 'your/path/here',
         retention: '1h',
@@ -49,7 +49,7 @@ Examples:
 The tool accepts configs in following format:
 
 ```js
-module.exports = [
+export default [
     {
         path: "/path/to/a/folder/",
         retention: "30d", // Ex. 1Y, 1M, 10d, 20h, 60m, 30s
