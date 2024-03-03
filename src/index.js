@@ -12,7 +12,7 @@ const removeFilesWithOptions =
                 files
                     .map(({ path }) => path)
                     .map((path) => `Skipping ${path}`)
-                    .join("\n")
+                    .join("\n"),
             );
             return;
         }

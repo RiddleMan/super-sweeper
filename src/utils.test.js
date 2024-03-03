@@ -53,21 +53,21 @@ describe("runSeries()", () => {
                 new Promise((resolve) => {
                     res += "a";
                     setTimeout(resolve, 1000);
-                })
+                }),
         );
         const b = vi.fn(
             () =>
                 new Promise((resolve) => {
                     res += "b";
                     setTimeout(resolve, 100);
-                })
+                }),
         );
         const c = vi.fn(
             () =>
                 new Promise((resolve) => {
                     res += "c";
                     setTimeout(resolve, 10);
-                })
+                }),
         );
 
         await runSeries([a, b, c]);
@@ -82,21 +82,21 @@ describe("runSeries()", () => {
                 new Promise((resolve) => {
                     res += "a";
                     setTimeout(resolve, 1000);
-                })
+                }),
         );
         const b = vi.fn(
             () =>
                 new Promise((_, reject) => {
                     res += "b";
                     reject();
-                })
+                }),
         );
         const c = vi.fn(
             () =>
                 new Promise((resolve) => {
                     res += "c";
                     resolve();
-                })
+                }),
         );
 
         try {
