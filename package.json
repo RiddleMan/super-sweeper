@@ -17,7 +17,7 @@
     "license": "MIT",
     "devDependencies": {
         "prettier": "^2.8.7",
-        "vitest": "^0.34.0"
+        "vitest": "^1.0.0"
     },
     "dependencies": {
         "debug": "^4.3.4",
