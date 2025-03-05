@@ -18,7 +18,7 @@ dependencies:
 devDependencies:
   prettier:
     specifier: ^3.0.0
-    version: 3.4.1
+    version: 3.5.3
   vitest:
     specifier: ^2.0.0
     version: 2.0.4
@@ -822,8 +822,8 @@ packages:
       source-map-js: 1.2.1
     dev: true
 
-  /prettier@3.4.1:
-    resolution: {integrity: sha512-G+YdqtITVZmOJje6QkXQWzl3fSfMxFwm1tjTyo9exhkmWSqC4Yhd1+lug++IlR2mvRVAxEDDWYkQdeSztajqgg==}
+  /prettier@3.5.3:
+    resolution: {integrity: sha512-QQtaxnoDJeAkDvDKWCLiwIXkTgRhwYDEQCghU9Z6q03iyek/rxRh/2lC3HB7P8sWT2xC/y5JDctPLBIGzHKbhw==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
